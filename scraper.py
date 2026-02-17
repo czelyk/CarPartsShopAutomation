@@ -9,6 +9,12 @@ import time
 # =====================
 EDGE_DRIVER_PATH = "drivers/msedgedriver.exe"
 
+# =====================
+# N11 HESAP BİLGİLERİ
+# =====================
+N11_EMAIL = "senin_email@example.com"  # N11 E-postanı gir
+N11_SIFRE = "senin_sifren"             # Şifreni gir
+
 options = Options()
 options.add_argument("--start-maximized")
 options.add_argument("--disable-blink-features=AutomationControlled")
@@ -17,24 +23,21 @@ service = Service(EDGE_DRIVER_PATH)
 driver = webdriver.Edge(service=service, options=options)
 
 # =====================
-# N11 HESABINA GİRİŞ YAP
+# N11 HESABINA OTOMATİK GİRİŞ YAP
 # =====================
-print("=== N11 Hesabına Giriş ===\n")
-kullanici_adi = input("N11 E-posta veya Kullanıcı Adı: ").strip()
-sifre = input("Şifre: ").strip()
+print("N11 hesabına giriş yapılıyor...\n")
 
-# N11 giriş sayfasına git
 driver.get("https://www.n11.com/login")
 time.sleep(3)
 
 try:
-    # E-posta/Kullanıcı adı alanını doldur
+    # E-posta alanını doldur
     email_input = driver.find_element(By.ID, "email")
-    email_input.send_keys(kullanici_adi)
+    email_input.send_keys(N11_EMAIL)
     
     # Şifre alanını doldur
     password_input = driver.find_element(By.ID, "password")
-    password_input.send_keys(sifre)
+    password_input.send_keys(N11_SIFRE)
     
     # Giriş yap butonuna tıkla
     login_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
@@ -42,7 +45,7 @@ try:
     
     # Giriş sonucunu bekle
     time.sleep(5)
-    print("✓ Giriş işlemi tamamlandı.\n")
+    print("✓ N11 hesabına başarıyla giriş yapıldı.\n")
     
 except Exception as e:
     print(f"✗ Giriş hatası: {e}\n")
